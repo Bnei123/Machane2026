@@ -1,550 +1,141 @@
-<!DOCTYPE html>
-<html lang="de" dir="ltr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🏕️ Machane Kauplan</title>
-<style>
-:root {
-  --bg: #f5f4f0;
-  --surface: #ffffff;
-  --surface2: #f8f7f4;
-  --border: #e0ddd6;
-  --border2: #c8c5bc;
-  --text: #1a1a18;
-  --text2: #5a5a54;
-  --text3: #9a9a90;
-  --accent: #2563eb;
-  --accent-bg: #eff6ff;
-  --accent-text: #1d4ed8;
-  --green: #16a34a;
-  --green-bg: #f0fdf4;
-  --green-text: #15803d;
-  --green-border: #86efac;
-  --yellow: #ca8a04;
-  --yellow-bg: #fefce8;
-  --yellow-text: #a16207;
-  --yellow-border: #fde047;
-  --purple: #7c3aed;
-  --purple-bg: #f5f3ff;
-  --purple-text: #6d28d9;
-  --purple-border: #c4b5fd;
-  --red: #dc2626;
-  --red-bg: #fef2f2;
-  --red-text: #b91c1c;
-  --radius: 8px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111110;
-    --surface: #1c1c1a;
-    --surface2: #242422;
-    --border: #2e2e2a;
-    --border2: #3e3e38;
-    --text: #f0efe8;
-    --text2: #a0a098;
-    --text3: #68685e;
-    --accent-bg: #1e3a5f;
-    --accent-text: #93c5fd;
-    --green-bg: #052e16;
-    --green-text: #86efac;
-    --green-border: #166534;
-    --yellow-bg: #1c1700;
-    --yellow-text: #fde047;
-    --yellow-border: #713f12;
-    --purple-bg: #2e1065;
-    --purple-text: #c4b5fd;
-    --purple-border: #4c1d95;
-    --red-bg: #1f0909;
-    --red-text: #fca5a5;
-  }
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 15px; min-height: 100vh; }
+🏕️ Machane Sommer 2026
+Teilnehmer / חניכים
 
-/* LAYOUT */
-.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
-.header-inner { max-width: 800px; margin: 0 auto; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.header h1 { font-size: 17px; font-weight: 600; flex: 1; }
-.people-bar { display: flex; align-items: center; gap: 8px; }
-.people-bar label { font-size: 13px; color: var(--text2); }
-.people-bar input[type=range] { width: 100px; }
-.people-count { font-size: 16px; font-weight: 700; min-width: 28px; color: var(--accent); }
-
-.main { max-width: 800px; margin: 0 auto; padding: 16px; }
-
-/* TABS */
-.tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-.tab { padding: 8px 15px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface); color: var(--text2); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.1s; user-select: none; }
-.tab:hover { background: var(--surface2); }
-.tab.active { background: var(--accent-bg); color: var(--accent-text); border-color: var(--accent); }
-
-/* STORE TABS */
-.store-tabs { display: flex; gap: 6px; margin-bottom: 14px; }
-.stab { padding: 7px 16px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.1s; }
-.stab.billa.active { background: var(--accent-bg); color: var(--accent-text); border-color: var(--accent); }
-.stab.hofer.active { background: var(--yellow-bg); color: var(--yellow-text); border-color: var(--yellow-border); }
-.stab.lamed.active { background: var(--purple-bg); color: var(--purple-text); border-color: var(--purple-border); }
-
-/* SECTION */
-.sec { display: none; }
-.sec.active { display: block; }
-
-/* CARDS */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow); }
-.card-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--border); background: var(--surface2); }
-.day-badge { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: var(--radius); background: var(--accent-bg); color: var(--accent-text); }
-.card-header h3 { font-size: 14px; font-weight: 600; }
-
-/* MEAL ROWS */
-.meal-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-.meal-row:last-child { border-bottom: none; }
-.meal-time { font-size: 11px; color: var(--text3); white-space: nowrap; padding-top: 2px; min-width: 50px; }
-.meal-content { flex: 1; }
-.meal-name { font-size: 13px; font-weight: 600; }
-.meal-sides { font-size: 12px; color: var(--text2); margin-top: 2px; }
-
-/* SHOP ROWS */
-.shop-row { border-bottom: 1px solid var(--border); padding: 10px 14px; transition: background 0.1s; }
-.shop-row:last-child { border-bottom: none; }
-.shop-row.done { opacity: 0.45; }
-.row-top { display: flex; align-items: center; gap: 8px; }
-.item-name { flex: 1; font-size: 14px; font-weight: 500; }
-.item-sub { font-size: 11px; color: var(--text3); margin-top: 1px; }
-.needed-qty { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; }
-.check-btn { padding: 4px 11px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface2); font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
-.check-btn.done { background: var(--green-bg); color: var(--green-text); border-color: var(--green-border); }
-.row-detail { display: flex; gap: 8px; margin-top: 7px; flex-wrap: wrap; align-items: center; }
-.snif-group { display: flex; align-items: center; gap: 5px; }
-.snif-group label { font-size: 12px; color: var(--text2); }
-.snif-input { width: 60px; font-size: 13px; padding: 4px 7px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface2); color: var(--text); }
-.note-input { flex: 1; min-width: 120px; font-size: 12px; padding: 4px 7px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface2); color: var(--text); }
-.snif-input:focus, .note-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
-.delta { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius); }
-.delta.ok { background: var(--green-bg); color: var(--green-text); }
-.delta.buy { background: var(--red-bg); color: var(--red-text); }
-.store-badge { font-size: 11px; padding: 2px 7px; border-radius: var(--radius); cursor: pointer; border: 1px solid var(--border2); color: var(--text2); background: var(--surface2); }
-
-/* ADD ITEM */
-.add-row { padding: 10px 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; background: var(--surface2); border-top: 1px solid var(--border); }
-.add-row input, .add-row select { font-size: 13px; padding: 6px 10px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface); color: var(--text); }
-.add-row input[type=text] { flex: 1; min-width: 100px; }
-.add-row input[type=number] { width: 70px; }
-.add-btn { padding: 6px 14px; border-radius: var(--radius); background: var(--accent); color: #fff; border: none; font-size: 13px; font-weight: 600; cursor: pointer; }
-.add-btn:hover { opacity: 0.88; }
-
-/* MEAT */
-.meat-card { display: flex; justify-content: space-between; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; margin-bottom: 8px; box-shadow: var(--shadow); }
-.meat-left { }
-.meat-name { font-size: 14px; font-weight: 600; }
-.meat-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
-.meat-qty { font-size: 17px; font-weight: 700; color: var(--purple); }
-.info-box { background: var(--yellow-bg); border: 1px solid var(--yellow-border); border-radius: 12px; padding: 11px 14px; font-size: 13px; color: var(--yellow-text); margin-bottom: 14px; }
-
-/* PACKLIST */
-.pack-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 580px) { .pack-layout { grid-template-columns: 1fr; } }
-.pack-col h2 { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: var(--text2); }
-.pack-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
-.pack-item:last-child { border-bottom: none; }
-.pack-check { width: 18px; height: 18px; border-radius: 4px; border: 1.5px solid var(--border2); background: var(--surface2); flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
-.pack-item.selected .pack-check { background: var(--accent); border-color: var(--accent); color: #fff; }
-.pack-item-text { font-size: 13px; }
-.pack-item-qty { font-size: 11px; color: var(--text3); }
-.pack-final { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; box-shadow: var(--shadow); }
-.pack-final h2 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
-.final-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.final-item:last-child { border-bottom: none; }
-.empty-state { font-size: 13px; color: var(--text3); font-style: italic; }
-.pack-add-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-.pack-add-row input { flex: 1; min-width: 80px; font-size: 13px; padding: 6px 10px; border-radius: var(--radius); border: 1px solid var(--border2); background: var(--surface2); color: var(--text); }
-.pack-add-row input[type=number] { width: 60px; flex: unset; }
-</style>
-</head>
-<body>
-
-<div class="header">
-  <div class="header-inner">
-    <h1>🏕️ Sommer Machane — Einkauf & Planung</h1>
-    <div class="people-bar">
-      <label>Teilnehmer:</label>
-      <input type="range" min="10" max="150" value="50" step="5" id="slider" oninput="setN(+this.value)">
-      <span class="people-count" id="cnt">50</span>
-    </div>
-  </div>
-</div>
-
-<div class="main">
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('menu',this)">🍽️ Speiseplan</div>
-    <div class="tab" onclick="showTab('shop',this)">🛒 Einkauf</div>
-    <div class="tab" onclick="showTab('meat',this)">🥩 Fleisch</div>
-    <div class="tab" onclick="showTab('pack',this)">📦 Snif-Packliste</div>
-  </div>
-
-  <!-- SPEISEPLAN -->
-  <div id="tab-menu" class="sec active">
-    <div class="card">
-      <div class="card-header"><span class="day-badge">So</span><h3>Sonntag / ראשון</h3></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Pasta mit Tomatensoße</div><div class="meal-sides">Israelischer Salat (Tomaten, Gurken, Zwiebeln)</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Mo</span><h3>Montag / שני</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Sandwiches</div><div class="meal-sides">Parve-Schokolade, Marmelade, Thunfisch, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Hühnerfaschiertes &amp; Reis</div><div class="meal-sides">Tomaten, Gurken, Süßkartoffel · Veg: Schnitzel Tiras</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Di</span><h3>Dienstag / שלישי</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Sandwiches</div><div class="meal-sides">Parve-Schokolade, Marmelade, Thunfisch</div></div></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Hamburger</div><div class="meal-sides">Tomaten, Gurken · Hamburgerbrötchen</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Mi</span><h3>Mittwoch / רביעי</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Sandwiches</div></div></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Grill</div><div class="meal-sides">Würstchen, Kartoffeln</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Do</span><h3>Donnerstag / חמישי</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Sandwiches</div></div></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Schnitzel &amp; Pommes</div><div class="meal-sides">Tomaten, Gurken</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Fr</span><h3>Freitag / שישי</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Schakschuka &amp; Sandwiches</div></div></div>
-      <div class="meal-row"><span class="meal-time">Schabbat</span><div class="meal-content"><div class="meal-name">Hühnerkeulen + Beilagen</div><div class="meal-sides">Reis, Eiersalat, Madbucha, Hummus, Tahini, Israelischer Salat, Challa, Kuchen</div></div></div>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="day-badge">Sa</span><h3>Schabbat / שבת</h3></div>
-      <div class="meal-row"><span class="meal-time">Früh</span><div class="meal-content"><div class="meal-name">Frühstück</div><div class="meal-sides">Cornflakes, Milch, Gemüse, Brot, Aufstriche</div></div></div>
-      <div class="meal-row"><span class="meal-time">Mittag</span><div class="meal-content"><div class="meal-name">Schnitzel + Beilagen</div><div class="meal-sides">Reis, Eiersalat, Madbucha, Hummus, Tahini, Israelischer Salat, Challa, Kuchen</div></div></div>
-      <div class="meal-row"><span class="meal-time">Abend</span><div class="meal-content"><div class="meal-name">Pasta</div></div></div>
-    </div>
-  </div>
-
-  <!-- EINKAUF -->
-  <div id="tab-shop" class="sec">
-    <div class="store-tabs">
-      <div class="stab billa active" onclick="showStore('billa',this)">🔵 BILLA</div>
-      <div class="stab hofer" onclick="showStore('hofer',this)">🟡 HOFER</div>
-      <div class="stab lamed" onclick="showStore('lamed',this)">🟣 LAMEHADRIN</div>
-    </div>
-    <div id="store-billa" class="card"></div>
-    <div id="store-hofer" class="card" style="display:none"></div>
-    <div id="store-lamed" class="card" style="display:none"></div>
-  </div>
-
-  <!-- FLEISCH -->
-  <div id="tab-meat" class="sec">
-    <div class="info-box">📋 Mengen von der Köchin — diese Mengen sind fix und ändern sich nicht mit der Teilnehmerzahl</div>
-    <div id="meat-list"></div>
-  </div>
-
-  <!-- PACKLISTE -->
-  <div id="tab-pack" class="sec">
-    <div class="info-box">📦 Wähle, was du aus dem Snif mitnehmen musst — ausgewählte Punkte erscheinen rechts als Packliste</div>
-    <div class="pack-layout">
-      <div>
-        <div class="card" style="padding:14px">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-            <h2 style="font-size:14px;font-weight:700;color:var(--text2)">Alle Snif-Items</h2>
-          </div>
-          <div id="pack-all"></div>
-          <div class="pack-add-row">
-            <input type="text" id="pack-new-name" placeholder="Neuer Artikel..." />
-            <input type="text" id="pack-new-qty" placeholder="Menge" style="width:80px;flex:unset" />
-            <button class="add-btn" onclick="addPackItem()">+ Hinzufügen</button>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="pack-final">
-          <h2>✅ Meine Packliste</h2>
-          <div id="pack-final-list"><p class="empty-state">Noch nichts ausgewählt</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-const BASE = 50;
-let N = 50;
-
-// ── DATA ──────────────────────────────────────────────
-// [name, sub, unit, baseQty, store]
-let items = {
-  billa: [
-    ["Kellogg's Cornflakes (koscher)", "täglich Frühstück", "Packungen", 4],
-    ["Granola (koscher)", "täglich Frühstück", "kg", 2],
-    ["Marmelade DARBU", "Sandwiches täglich", "Gläser", 5],
-    ["Popcorn", "Filmabend", "Packungen", 5],
-  ],
-  hofer: [
-    ["Tomaten", "Salat + Soße täglich", "kg", 12],
-    ["Gurken", "Salat täglich", "Stück", 20],
-    ["Paprika", "Sandwiches + Kochen", "Stück", 30],
-    ["Zwiebeln", "Kochen + Salat", "kg", 8],
-    ["Kartoffeln", "Grill + Pommes", "kg", 15],
-    ["Süßkartoffeln", "Mo Abend", "kg", 4],
-    ["Bananen", "Frühstück täglich", "kg", 6],
-    ["Äpfel", "Frühstück täglich", "kg", 6],
-    ["Wassermelone", "Nachmittag", "Stück", 3],
-    ["Mehl", "Challa + Backen", "kg", 5],
-    ["Zucker", "Backen allgemein", "kg", 3],
-    ["Speiseöl (Kanola)", "Kochen", "Flaschen", 5],
-    ["Softdrinks / Cola", "allgemein", "Flaschen", 10],
-    ["Holzspieße", "Grill Mi", "Packungen", 2],
-    ["Müllbeutel", "Küche", "Packungen", 3],
-    ["Alufolie", "Kochen + Grill", "Rollen", 2],
-    ["Backpapier", "Backen", "Rollen", 2],
-    ["Klopapier", "allgemein", "Packungen", 5],
-  ],
-  lamed: [
-    ["Milch (haltbar)", "Frühstück + Kochen", "Liter", 20],
-    ["Joghurt", "Frühstück", "kg", 3],
-    ["Eier", "Schakschuka + Schnitzel + Aufstriche", "Stück", 200],
-    ["Thunfisch", "Sandwiches täglich", "Dosen", 20],
-    ["Mayonnaise", "Eiersalat + allg.", "Gläser", 3],
-    ["Semmelbrösel (פירורי לחם)", "Schnitzel panieren", "Packungen (800g)", 8],
-    ["Suppenpulver / Bouillon (אבקת מרק)", "Kochen", "Packungen", 4],
-    ["Parve-Schokoaufstrich HaShachar", "Sandwiches", "kg", 4],
-    ["Essig (חומץ)", "Kochen + Salat", "Flaschen", 2],
-    ["Tomatenmark (Dosen)", "Pasta-Soße", "Dosen", 10],
-    ["Hummus (fertig)", "Schabbat + Sandwiches", "kg", 6],
-    ["Tahini", "Schabbat", "kg", 3],
-    ["Madbucha", "Schabbat", "Gläser", 4],
-    ["Challa", "Schabbat Fr + Sa", "Stück", 10],
-    ["Traubensaft (Kiddusch)", "Schabbat", "Flaschen", 3],
-    ["Kekse + Kuchen (Schabbat)", "Dessert", "Packungen", 8],
-    ["Eiscreme-Becher (גביעי גלידה)", "Nachspeise", "Becher", 50],
-    ["Pickles / Gurkengläser", "Sandwiches", "Gläser", 4],
-    ["Falafel-Mix", "Veg-Option", "Packungen", 6],
-    ["Hamburgerbrötchen (koscher)", "Di Abend Hamburger", "Stück", 60],
-    ["Pita (koscher)", "Sandwiches", "Stück", 100],
-    ["Marshmallow", "Kumsitz / S'mores", "Packungen", 3],
-    ["Müllbeutel", "Küche", "Packungen", 3],
-    ["Einwegbecher kalt", "täglich", "Stück", 300],
-    ["Einwegbecher heiß", "täglich", "Stück", 200],
-    ["Einwegschalen", "täglich", "Stück", 200],
-    ["Pasta", "So + Sa Abend", "kg", 10],
-    ["Reis", "Mo + Fr + Sa", "kg", 6],
-  ]
-};
-
-const meat = [
-  ["Hühnerfaschiertes", "עוף טחון · Montag Abend", "7 kg"],
-  ["Rindsfaschiertes", "בקר טחון · Hamburger Di", "8 kg"],
-  ["Pargiot", "פרגיות · nach Anweisung der Köchin", "5 kg"],
-  ["Würstchen", "נקניקיות · Grill Mi", "100 Stück"],
-  ["Hühnerschnitzel", "שניצל עוף · Do + Sa", "15 kg"],
-  ["Hühnerkeulen", "כרעיים · Schabbat Fr", "20 Stück"],
-];
-
-let packItems = [
-  {name:"Siddurim / Birkonim", qty:"50 Stück"},
-  {name:"Sefer Torah + Aron", qty:"1"},
-  {name:"Schabbat-Platten (4)", qty:"4"},
-  {name:"Schabbat-Uhr", qty:"4"},
-  {name:"Wasserkocher (groß)", qty:"1"},
-  {name:"Kerzen / Teelichter", qty:"viele"},
-  {name:"Talitot", qty:"10+"},
-  {name:"Kippot", qty:"nach Bedarf"},
-  {name:"Paraschat HaSchawua-Blätter", qty:"50"},
-  {name:"Schabbat-Kerzen (Packung)", qty:"1 Packung"},
-  {name:"Walkie-Talkies + Ladekabel", qty:"6"},
-  {name:"Musik-Box + Ladekabel", qty:"1"},
-  {name:"Biemer + Kabel", qty:"1"},
-  {name:"Küchen-Utensilien (Besteck / Töpfe / Teller / Becher)", qty:"komplett"},
-  {name:"Bastel-Utensilien (Schere / Papier / Stifte)", qty:"1 Kiste"},
-  {name:"Israel + Bnei Akiva Flaggen", qty:"mehrere"},
-  {name:"Eruv-Kabel / Seil", qty:"1"},
-  {name:"Merch-Kisten", qty:"3"},
-  {name:"Cornflakes-Kisten", qty:"2"},
-  {name:"Pasta-Kiste", qty:"1"},
-  {name:"Gewürze-Kiste", qty:"1"},
-  {name:"Wegwerfgeschirr-Kiste", qty:"4 Kisten"},
-  {name:"Handy-Box", qty:"1"},
-  {name:"Verlängerungskabel", qty:"mehrere"},
-  {name:"Putz- und Reinigungsmittel", qty:"1 Kiste"},
-  {name:"Insektenspray", qty:"1"},
-  {name:"Fackeln", qty:"nach Bedarf"},
-  {name:"Schlafsäcke / Lagerutensilien", qty:"nach Bedarf"},
-];
-
-let snifQty = {}, snifNote = {}, checked = {}, packSelected = {};
-
-// ── RENDER SHOP ────────────────────────────────────────
-function renderShop(store) {
-  const el = document.getElementById('store-' + store);
-  el.innerHTML = '';
-  items[store].forEach((item, idx) => {
-    const key = store + '-' + idx;
-    const scaledQty = Math.round(item[3] * N / BASE);
-    const snif = snifQty[key] || 0;
-    const remaining = Math.max(0, scaledQty - snif);
-    let deltaHtml = '';
-    if (snif > 0) {
-      if (snif >= scaledQty) deltaHtml = `<span class="delta ok">✓ genug im Snif</span>`;
-      else deltaHtml = `<span class="delta buy">noch ${remaining} ${item[2]} kaufen</span>`;
-    }
-    const div = document.createElement('div');
-    div.className = 'shop-row' + (checked[key] ? ' done' : '');
-    div.innerHTML = `
-      <div class="row-top">
-        <div>
-          <div class="item-name">${item[0]}</div>
-          <div class="item-sub">${item[1]}</div>
-        </div>
-        <div style="margin-left:auto;text-align:right;display:flex;align-items:center;gap:8px">
-          <span class="needed-qty">${scaledQty} ${item[2]}</span>
-          <span class="check-btn${checked[key] ? ' done' : ''}" onclick="toggleCheck('${key}','${store}',${idx})">${checked[key] ? '✓ erledigt' : 'kaufen'}</span>
-        </div>
-      </div>
-      <div class="row-detail">
-        <div class="snif-group">
-          <label>Im Snif:</label>
-          <input class="snif-input" type="number" min="0" value="${snif}" placeholder="0"
-            onchange="snifQty['${key}']=+this.value;renderShop('${store}')" />
-          <span style="font-size:12px;color:var(--text3)">${item[2]}</span>
-        </div>
-        <input class="note-input" type="text" placeholder="Anmerkung / הערה…"
-          value="${snifNote[key] || ''}"
-          oninput="snifNote['${key}']=this.value" />
-        ${deltaHtml}
-        <select class="store-badge" onchange="moveItem('${store}',${idx},this.value)" style="font-size:12px;padding:3px 6px">
-          <option value="${store}" selected>📍 ${store === 'billa' ? 'BILLA' : store === 'hofer' ? 'HOFER' : 'LAMEHADRIN'}</option>
-          ${store !== 'billa' ? '<option value="billa">→ BILLA</option>' : ''}
-          ${store !== 'hofer' ? '<option value="hofer">→ HOFER</option>' : ''}
-          ${store !== 'lamed' ? '<option value="lamed">→ LAMEHADRIN</option>' : ''}
-        </select>
-      </div>`;
-    el.appendChild(div);
-  });
-  // Add row
-  const addDiv = document.createElement('div');
-  addDiv.className = 'add-row';
-  addDiv.innerHTML = `
-    <input type="text" id="new-name-${store}" placeholder="Neuer Artikel…" style="flex:1;min-width:100px" />
-    <input type="text" id="new-sub-${store}" placeholder="Beschreibung" style="width:130px" />
-    <input type="number" id="new-qty-${store}" placeholder="Menge" style="width:70px" />
-    <input type="text" id="new-unit-${store}" placeholder="Einheit" style="width:70px" />
-    <button class="add-btn" onclick="addItem('${store}')">+ Hinzufügen</button>`;
-  el.appendChild(addDiv);
-}
-
-function addItem(store) {
-  const name = document.getElementById('new-name-' + store).value.trim();
-  const sub = document.getElementById('new-sub-' + store).value.trim();
-  const qty = parseFloat(document.getElementById('new-qty-' + store).value) || 1;
-  const unit = document.getElementById('new-unit-' + store).value.trim() || 'Stück';
-  if (!name) return;
-  items[store].push([name, sub, unit, qty]);
-  renderShop(store);
-}
-
-function moveItem(fromStore, idx, toStore) {
-  if (fromStore === toStore) return;
-  const item = items[fromStore].splice(idx, 1)[0];
-  items[toStore].push(item);
-  renderShop(fromStore);
-  renderShop(toStore);
-}
-
-function toggleCheck(key, store, idx) {
-  checked[key] = !checked[key];
-  renderShop(store);
-}
-
-// ── RENDER MEAT ─────────────────────────────────────
-function renderMeat() {
-  const el = document.getElementById('meat-list');
-  el.innerHTML = meat.map(m => `
-    <div class="meat-card">
-      <div class="meat-left">
-        <div class="meat-name">${m[0]}</div>
-        <div class="meat-sub">${m[1]}</div>
-      </div>
-      <div class="meat-qty">${m[2]}</div>
-    </div>`).join('');
-}
-
-// ── PACKLIST ────────────────────────────────────────
-function renderPack() {
-  const allEl = document.getElementById('pack-all');
-  allEl.innerHTML = packItems.map((item, i) => `
-    <div class="pack-item${packSelected[i] ? ' selected' : ''}" onclick="togglePack(${i})">
-      <div class="pack-check">${packSelected[i] ? '✓' : ''}</div>
-      <div>
-        <div class="pack-item-text">${item.name}</div>
-        <div class="pack-item-qty">${item.qty}</div>
-      </div>
-    </div>`).join('');
-
-  const finalEl = document.getElementById('pack-final-list');
-  const selected = packItems.filter((_, i) => packSelected[i]);
-  if (selected.length === 0) {
-    finalEl.innerHTML = '<p class="empty-state">Noch nichts ausgewählt</p>';
-  } else {
-    finalEl.innerHTML = selected.map(item => `
-      <div class="final-item">
-        <span>${item.name}</span>
-        <span style="color:var(--text2)">${item.qty}</span>
-      </div>`).join('');
-  }
-}
-
-function togglePack(i) {
-  packSelected[i] = !packSelected[i];
-  renderPack();
-}
-
-function addPackItem() {
-  const name = document.getElementById('pack-new-name').value.trim();
-  const qty = document.getElementById('pack-new-qty').value.trim();
-  if (!name) return;
-  packItems.push({name, qty: qty || '—'});
-  document.getElementById('pack-new-name').value = '';
-  document.getElementById('pack-new-qty').value = '';
-  renderPack();
-}
-
-// ── NAV ─────────────────────────────────────────────
-function showTab(name, el) {
-  document.querySelectorAll('.sec').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  el.classList.add('active');
-  if (name === 'pack') renderPack();
-}
-
-function showStore(name, el) {
-  ['billa','hofer','lamed'].forEach(s => {
-    document.getElementById('store-' + s).style.display = 'none';
-  });
-  document.querySelectorAll('.stab').forEach(t => t.classList.remove('active'));
-  document.getElementById('store-' + name).style.display = 'block';
-  el.classList.add('active');
-  renderShop(name);
-}
-
-function setN(val) {
-  N = val;
-  document.getElementById('cnt').textContent = val;
-  ['billa','hofer','lamed'].forEach(s => {
-    if (document.getElementById('store-' + s).style.display !== 'none') renderShop(s);
-  });
-}
-
-// ── INIT ─────────────────────────────────────────────
-renderShop('billa');
-renderMeat();
-renderPack();
-</script>
-</body>
-</html>
+50
+🍽️ Speiseplan
+🛒 Einkauf
+🥩 Fleisch
+📦 Packliste
+📋 Luz Logisti
+So
+ראשון / Sonntag
+Abend
+Pasta mit Tomatensoße
+Israelischer Salat (Tomaten, Gurken, Zwiebeln)
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Mo
+שני / Montag
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Sandwiches
+Parve-Schokolade, Marmelade, Thunfisch
+✏️
+✕
+Abend
+Hühnerfaschiertes & Reis
+Tomaten, Gurken, Süßkartoffel · Veg: Schnitzel Tiras
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Di
+שלישי / Dienstag
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Sandwiches
+✏️
+✕
+Abend
+Hamburger
+Tomaten, Gurken · Hamburgerbrötchen
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Mi
+רביעי / Mittwoch
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Sandwiches
+✏️
+✕
+Abend
+Grill
+Würstchen, Kartoffeln
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Do
+חמישי / Donnerstag
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Sandwiches
+✏️
+✕
+Abend
+Schnitzel & Pommes
+Tomaten, Gurken
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Fr
+שישי / Freitag
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Schakschuka & Sandwiches
+✏️
+✕
+Schabbat
+Hühnerkeulen + Beilagen
+Reis, Eiersalat, Madbucha, Hummus, Tahini, Challa, Kuchen
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
+Sa
+שבת / Schabbat
+Früh
+Frühstück
+Cornflakes, Milch, Gemüse, Brot, Aufstriche
+✏️
+✕
+Mittag
+Schnitzel + Beilagen
+Reis, Eiersalat, Madbucha, Hummus, Tahini, Challa, Kuchen
+✏️
+✕
+Abend
+Pasta
+✏️
+✕
+Zeit
+Gericht
+Beilagen
++ Mahlzeit
